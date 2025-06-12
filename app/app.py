@@ -66,22 +66,5 @@ def play():
         "game_over": balance <= 0  # Ha elfogyott a pénz, vége a játéknak
     })
 
-@app.route('/deposit', methods=['POST'])
-def deposit():
-    """A játékos pénz befizetése a bankba."""
-    global balance, bank_balance
-    amount = request.json.get("amount", 0)
-
-    if amount <= 0:
-        return jsonify({"error": "Invalid deposit amount."}), 400
-
-    balance += amount  # A játékos egyenlege növekszik
-    bank_balance += amount  # A bank pénze is növekszik
-
-    return jsonify({
-        "balance": balance,
-        "bank_balance": bank_balance
-    })
-
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
