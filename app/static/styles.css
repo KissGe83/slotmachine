@@ -1,0 +1,91 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.slot-machine {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.symbol {
+    width: 100px;
+    height: 100px;
+    margin: 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: white;
+}
+
+/* Háromszög (triangle) */
+.triangle {
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 100px solid #ff6347; /* Piros háromszög */
+}
+
+/* Kör (circle) */
+.circle {
+    background-color: #4CAF50; /* Zöld kör */
+    border-radius: 50%;
+}
+
+/* Négyzet (square) */
+.square {
+    background-color: #008CBA; /* Kék négyzet */
+}
+
+/* Csillag (star) */
+.star {
+    position: relative;
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background-color: transparent;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    background-color: #FFD700; /* Sárga csillag */
+}
+
+/* Joker (JOKER) */
+.joker {
+    background-color: #ff1493; /* Rózsaszín JOKER */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px; /* A szöveg mérete */
+    color: white; /* Szöveg színe */
+    font-weight: bold;
+    width: 100px;
+    height: 100px;
+}
+
+.joker::before {
+    content: "JOKER"; /* A szöveg, amit megjelenítünk */
+}
+
+.button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #45a049;
+}
+
+.balance {
+    margin-top: 20px;
+    font-size: 20px;
+}

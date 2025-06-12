@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slot Machine Game</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+    <h1>Slot Machine Game</h1>
+
+    <div class="slot-machine">
+        <div id="symbol1" class="symbol"></div>
+        <div id="symbol2" class="symbol"></div>
+        <div id="symbol3" class="symbol"></div>
+    </div>
+
+    <button class="button" onclick="playGame()">Play Game</button>
+
+    <div class="balance" id="balance">Player Balance: <span id="player-balance">100</span> EUR</div>
+    <div class="bank-balance" id="bank-balance">Bank Balance: <span id="bank-balance-value">1000</span> EUR</div>
+
+    <div id="game-over-message" style="display: none;">
+        <h2>Game Over</h2>
+        <p>You've run out of money. Please deposit more funds to continue playing.</p>
+    </div>
+
+    <div id="win-message" style="display: none;">
+        <h2>Congratulations!</h2>
+        <p>You won <span id="win-amount">0</span> EUR!</p>
+    </div>
+
+    <div id="spin-count">
+        <h3>Number of Spins: <span id="spin-count-value">0</span></h3>
+    </div>
+
+    <script>
+        let balance = 100;
+        let bankBalance = 1000;
+        let gameOver = false;
+        let spins = 0;  // Track the number of spins
+
+        function playGame() {
+            if (balance < 2) {
+                alert("Not enough money to play!");
+                return;
+            }
+
+            fetch('/play', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const result = data.result;
+                const reward = data.reward;
+
+                document.getElementById("symbol1").className = "symbol " + result[0];
+                document.getElementById("symbol2").className = "symbol " + result[1];
+                document.getElementById("symbol3").className = "symbol " + result[2];
+
+                balance = data.balance;
+                bankBalance = data.bank_balance;
+
+                // Update the spin count
+                spins += 1;
+                document.getElementById("spin-count-value").innerText = spins;
+
+                document.getElementById("player-balance").innerText = balance;
+                document.getElementById("bank-balance-value").innerText = bankBalance;
+
+                if (data.game_over) {
+                    document.getElementById("game-over-message").style.display = "block";
+                }
+
+                // Nyertél-e? Ha igen, jelenjen meg a nyeremény
+                if (reward > 0) {
+                    document.getElementById("win-amount").innerText = reward;
+                    document.getElementById("win-message").style.display = "block";
+                } else {
+                    document.getElementById("win-message").style.display = "none"; // Ha nem nyertél, ne jelenjen meg
+                }
+            })
+            .catch(error => {
+                console.error("Error occurred:", error);
+            });
+        }
+    </script>
+</body>
+</html>

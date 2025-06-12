@@ -1,0 +1,24 @@
+name: Build and push Docker image
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+
+    steps:
+      - name: Download Code
+        uses: actions/checkout@v3
+
+      - name: Docker login to GHCR
+        run: echo "${{ secrets.GHCR_DOCKER }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Docker image build and push
+        run: |
+          docker build -t ghcr.io/kissge83/slotmachine:latest ./app
+          docker push ghcr.io/kissge83/slotmachine:latest
